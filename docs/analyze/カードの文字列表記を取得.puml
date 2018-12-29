@@ -1,0 +1,18 @@
+@startuml
+
+usecase カードの文字列表記を取得
+
+left to right direction
+
+actor PHPプログラム
+boundary クラスのインターフェース
+control getNotation
+entity 文字列表記
+
+
+PHPプログラム --> クラスのインターフェース
+クラスのインターフェース --> getNotation
+getNotation --> 文字列表記
+
+
+@enduml
