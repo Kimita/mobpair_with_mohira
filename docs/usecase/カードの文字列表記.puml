@@ -1,0 +1,10 @@
+@startuml
+
+usecase 課題1_1_カードの文字列表記
+
+left to right direction
+
+actor 誰か
+
+
+@enduml
