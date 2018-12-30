@@ -8,7 +8,13 @@
 
 namespace App\Domain\Trump\Models\Interfaces;
 
+/**
+ * 一枚一枚のカードを表現するCardエンティティインスタンスが備えるインターフェース
+ *
+ * Interface CardInterface
+ * @package App\Domain\Trump\Models\Interfaces
+ */
 interface CardInterface
 {
-    public function getNotation();
+    public function notation() : string;
 }

@@ -9,34 +9,52 @@
 namespace Tests\Unit\Porker;
 
 use Tests\TestCase;
-use Mockery\MockInterface;
 use App\Domain\Poker\Models\Interfaces\PlayerInterface as Player;
-use App\Domain\Card\Models\Interfaces\CardInterface as CardEntity;
-use App\Domain\Card\Models\Entity\Vo\Suit;
-use App\Domain\Card\Models\Entity\Vo\Rank;
+use App\Domain\Trump\Models\Interfaces\CardInterface as CardEntity;
+use App\Domain\Trump\Models\Vo\Suit;
+use App\Domain\Trump\Models\Vo\Rank;
 
-class Task1Test extends TestCase
+/**
+ * @see http://devtesting.jp/tddbc/?TDDBC仙台07%2F課題
+ * 「課題1 トランプのカード」セクションに対応するテストクラス
+ *
+ * Class Task1
+ * @package Tests\Unit\Porker
+ */
+class Task1TestBak extends TestCase
 {
 
-    public function test_task1()
+    /**
+     * 「課題1-1 カードの文字列表記」に対応するテストクラス
+     */
+    public function test_section1()
     {
-        $expectSuit = '♠';
-        $expectRank = '1';
-        $suit = new Suit($expectSuit);
-        $rank = new Rank($expectRank);
-        $notation = $suit->getVal().$rank->getVal();
-        
+        $suit = new Suit(null);
+        $rank = new Rank('1');
+
+        $this->assertTrue($suit instanceof Suit);
+        $expectSuit = $suit->label;
+
+        $this->assertTrue($rank instanceof Rank);
+        $expectRank = $rank->label;
+
+        $notation = $expectSuit . $expectRank;
+
+        /* Cardエンティティのmockを生成し、interfaceに定義した通りの振る舞いをmockオブジェクトへ割り当てる */
         $card = \Mockery::mock(CardEntity::class);
         $card->shouldReceive('getNotation')
-             ->andReturn($notation);
-        
-        
+            ->andReturn($notation);
+
+        /* Playerエンティティのmockを生成し、interfaceに定義した通りの振る舞いをmockオブジェクトへ割り当てる */
         $player = \Mockery::mock(Player::class);
         $player->shouldReceive('getCard')
-               ->andReturn($card);
+            ->andReturn($card);
 
+        /*
+         * テストを実施する
+         */
         $playersCard = $player->getCard();
-        $cardNotation = $playersCard->getNotation();
+        $cardNotation = $playersCard->notation();
         $this->assertEquals($notation, $cardNotation);
     }
 }
