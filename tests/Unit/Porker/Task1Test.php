@@ -29,7 +29,7 @@ class Task1TestBak extends TestCase
      */
     public function test_section1()
     {
-        $suit = new Suit(null);
+        $suit = new Suit('♠');
         $rank = new Rank('1');
 
         $this->assertTrue($suit instanceof Suit);
@@ -42,7 +42,7 @@ class Task1TestBak extends TestCase
 
         /* Cardエンティティのmockを生成し、interfaceに定義した通りの振る舞いをmockオブジェクトへ割り当てる */
         $card = \Mockery::mock(CardEntity::class);
-        $card->shouldReceive('getNotation')
+        $card->shouldReceive('notation')
             ->andReturn($notation);
 
         /* Playerエンティティのmockを生成し、interfaceに定義した通りの振る舞いをmockオブジェクトへ割り当てる */
