@@ -1,18 +1,24 @@
 @startuml
 
-usecase カードの文字列表記を取得
+title プレイヤーの手持ちカードの文字列表記を問い合わせる
 
-left to right direction
+''left to right direction
 
-actor PHPプログラム
-boundary クラスのインターフェース
-control getNotation
-entity 文字列表記
+actor PHPシステム
+
+package "Porker" {
+    boundary Playerエンティティ
+    control getNotation
+}
+
+package "Trump" {
+    usecase カード一枚の文字列表記を返す
+}
 
 
-PHPプログラム --> クラスのインターフェース
-クラスのインターフェース --> getNotation
-getNotation --> 文字列表記
+PHPシステム --> Playerエンティティ
+Playerエンティティ --> getNotation
+getNotation --> カード一枚の文字列表記を返す
 
 
 @enduml

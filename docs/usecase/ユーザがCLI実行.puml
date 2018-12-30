@@ -1,18 +1,31 @@
 @startuml
 
+title ユーザがシステムを操作
 
-left to right direction
+''left to right direction
 
 actor ユーザ
 
-package "PHPプログラム" {
+package "PHPシステム" {
     usecase カードの文字列表記を取得
-    usecase なにかの操作
+    usecase なにかの操作_1
+    usecase なにかの操作_2
+
+    package "Porker" {
+        usecase プレイヤーの手持ちカードの文字列表記を問い合わせる
+    }
+
+    package "Trump" {
+        usecase カード一枚の文字列表記を返す
+    }
 }
 
 
 ユーザ --> カードの文字列表記を取得
-ユーザ --> なにかの操作
+カードの文字列表記を取得 ..> プレイヤーの手持ちカードの文字列表記を問い合わせる
+プレイヤーの手持ちカードの文字列表記を問い合わせる -l-> カード一枚の文字列表記を返す
+ユーザ --> なにかの操作_1
+ユーザ --> なにかの操作_2
 
 
 
