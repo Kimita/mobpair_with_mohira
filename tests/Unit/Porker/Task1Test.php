@@ -15,7 +15,7 @@ use App\Domain\Card\Models\Interfaces\CardInterface as CardEntity;
 use App\Domain\Card\Models\Entity\Vo\Suit;
 use App\Domain\Card\Models\Entity\Vo\Rank;
 
-class Task1 extends TestCase
+class Task1Test extends TestCase
 {
 
     public function test_task1()
