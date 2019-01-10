@@ -1,0 +1,41 @@
+@startuml
+
+title: 初期概念モデル
+
+agent ユーザ
+
+rectangle PHPシステム {
+    package Trump {
+        agent デッキ
+        agent カード
+        agent スート
+        agent ランク
+        agent 役
+    }
+
+    package Poker {
+        agent プレイヤー
+        agent ディーラー
+        agent 手札
+        agent 戦績
+    }
+}
+
+ユーザ -- プレイヤー
+
+カード *-- スート
+カード *-- ランク
+デッキ *-u- カード
+
+手札 *-- カード
+プレイヤー o-- 手札
+プレイヤー o-- 戦績
+
+ディーラー -- デッキ
+ディーラー -- カード
+ディーラー -u- プレイヤー
+
+手札 -- 役
+
+
+@enduml
