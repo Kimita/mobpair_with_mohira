@@ -1,6 +1,6 @@
 @startuml
 
-title: 初期概念モデル
+title: ドメインモデル
 
 agent ユーザ
 
@@ -24,52 +24,43 @@ rectangle PHPシステム {
         agent Player
         agent DealerService
         agent 手札
-        agent 戦績
-        agent 戦績Repository
-        agent HandAnalizeService
+        package 戦績管理 {
+            agent 戦績
+            agent 戦績Repository
+        }
         package Hand {
+            agent HandAnalizeService
             agent フルハウス
             agent ツーペア
-            agent "..."
+            agent その他いろいろ
         }
     }
 }
 
-Poker -[hidden]- Contract
-Poker -[hidden]- Trump
+'' PHPシステム直下パッケージの位置関係
+Poker -[hidden]r- Contract
 Contract -[hidden]d- Trump
 
-ユーザ -- Game
-
 '' Pokerパッケージ
-Game -[hidden]d- PHPシステム
+ユーザ -- Game
 Game <|.. GameInterface
-Game -- DealerService
-Game -- Player
-Game -- HandAnalizeService
-Game -- 戦績Repository
-
 '' Gameインスタンスが直接触るモデル群
-DealerService -[hidden]u- Game
-Player -[hidden]u- Game
-HandAnalizeService -[hidden]u- Game
-DealerService -[hidden]- Player
-Player -[hidden]- HandAnalizeService
-HandAnalizeService -[hidden]- 戦績Repository
+Game -d- DealerService
+Game -d- Player
 
-Player o-d- 手札
-Player o-d- 戦績
+Player -l- 戦績Repository
+Player o-- 手札
 手札 o-- Card
-手札 -- Hand
+手札 -d- HandAnalizeService
 
-HandAnalizeService -d- Hand
-HandAnalizeService -d- 手札
+HandAnalizeService -d- フルハウス
+HandAnalizeService -d- ツーペア
+HandAnalizeService -d- その他いろいろ
+フルハウス -[hidden]l- ツーペア
 
-戦績Repository -- 戦績
-戦績Repository -- Player
+戦績Repository -d- 戦績
 
 DealerService -- TrumpRepository
-DealerService -- Player
 
 '' Trumpパッケージ
 Card *-- Suit
@@ -78,11 +69,11 @@ Deck o-- Card
 TrumpRepository -- Card
 TrumpRepository -- Deck
 
-'legend
-'今回のレビューで扱う
-'> 資料「TDDBC課題：ポーカー」 における
-'> 「課題1-1 Cardの文字列表記」
-'が対象とする範囲は、白抜き部分です。
-'end legend
+legend
+今回のレビューで扱う
+> 資料「TDDBC課題：ポーカー」 における
+> 「課題1-1 Cardの文字列表記」
+が対象とする範囲は、白抜き部分です。
+end legend
 
 @enduml
