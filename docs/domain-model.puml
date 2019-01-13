@@ -5,43 +5,84 @@ title: 初期概念モデル
 agent ユーザ
 
 rectangle PHPシステム {
+
+    package Contract {
+        agent GameInterface
+    }
+
     package Trump {
-        agent デッキ
-        agent カード
-        agent スート
-        agent ランク
-        agent 役
+
+        agent TrumpRepository
+        agent Deck
+        agent Card
+        agent Suit
+        agent Rank
     }
 
     package Poker {
-        agent プレイヤー
-        agent ディーラー
+        agent Game
+        agent Player
+        agent DealerService
         agent 手札
         agent 戦績
+        agent 戦績Repository
+        agent HandAnalizeService
+        package Hand {
+            agent フルハウス
+            agent ツーペア
+            agent "..."
+        }
     }
 }
 
-ユーザ -- プレイヤー
+Poker -[hidden]- Contract
+Poker -[hidden]- Trump
+Contract -[hidden]d- Trump
 
-カード *-- スート
-カード *-- ランク
-デッキ *-u- カード
+ユーザ -- Game
 
-手札 *-- カード
-プレイヤー o-- 手札
-プレイヤー o-- 戦績
+'' Pokerパッケージ
+Game -[hidden]d- PHPシステム
+Game <|.. GameInterface
+Game -- DealerService
+Game -- Player
+Game -- HandAnalizeService
+Game -- 戦績Repository
 
-ディーラー -- デッキ
-ディーラー -- カード
-ディーラー -u- プレイヤー
+'' Gameインスタンスが直接触るモデル群
+DealerService -[hidden]u- Game
+Player -[hidden]u- Game
+HandAnalizeService -[hidden]u- Game
+DealerService -[hidden]- Player
+Player -[hidden]- HandAnalizeService
+HandAnalizeService -[hidden]- 戦績Repository
 
-手札 -- 役
+Player o-d- 手札
+Player o-d- 戦績
+手札 o-- Card
+手札 -- Hand
 
-legend
-今回のレビューで扱う
-> 資料「TDDBC課題：ポーカー」 における
-> 「課題1-1 カードの文字列表記」
-が対象とする範囲は、白抜き部分です。
-end legend
+HandAnalizeService -d- Hand
+HandAnalizeService -d- 手札
+
+戦績Repository -- 戦績
+戦績Repository -- Player
+
+DealerService -- TrumpRepository
+DealerService -- Player
+
+'' Trumpパッケージ
+Card *-- Suit
+Card *-- Rank
+Deck o-- Card
+TrumpRepository -- Card
+TrumpRepository -- Deck
+
+'legend
+'今回のレビューで扱う
+'> 資料「TDDBC課題：ポーカー」 における
+'> 「課題1-1 Cardの文字列表記」
+'が対象とする範囲は、白抜き部分です。
+'end legend
 
 @enduml
