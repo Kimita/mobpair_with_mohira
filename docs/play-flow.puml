@@ -1,0 +1,72 @@
+@startuml
+
+title ゲームプレイのフロー
+
+start
+:システムログイン;
+:Pokerゲーム開始;
+note right
+  対戦人数を決める(2～6人)
+end note
+repeat
+    :親を決定;
+    note right
+      システムによる自動処理
+    end note
+
+    repeat
+        :親がCardを伏せて各Playerへ配布;
+        note right
+          システムによる自動処理
+          Deck内のCardスタックの
+          上から一つずつ配る
+        end note
+    repeat while (全Playerの手札が５枚に達していない？)
+    :初期Card配布完了;
+    note right
+      以後、ユーザは自分の手札のみ
+      UI上で目視可能となる
+    end note
+
+    repeat
+        :順番に手札を交換する;
+    note right
+      ログインセッションにて状態を保持
+    end note
+        fork
+            :手札に不満のあるPlayer;
+            :いらないCardを1～5枚捨てる;
+            :親がCardをDeckからPlayerへ配布する;
+        fork again
+            :手札に不満のないPlayer;
+            :手札交換をスキップ;
+        endfork
+
+    repeat while (３回繰り返す)
+
+    :手札の比較により勝敗を判定;
+    note right
+      全Playerの手札が
+      ユーザのUI上で目視可能となる
+    end note
+
+repeat while (親を終えていないPlayerがいる)
+
+:総合成績発表;
+note right
+  戦績として永続化
+end note
+
+:Pokerゲーム終了;
+:システムログアウト;
+end
+
+legend top center
+「簡易ルール（ポーカーかんたんバーション）」をおおよその前提として
+ユーザによるシステム利用の開始から終了までのフローをでっち上げました。
+
+なお、ユーザ以外のPlayerはシステムによるNon Player Charactorです。
+end legend
+
+
+@enduml
