@@ -1,0 +1,24 @@
+@startuml
+
+title カード一枚の文字列表記を返す
+
+''left to right direction
+
+
+package "Porker" {
+    actor Playerエンティティ
+}
+
+package "Trump" {
+    boundary Cardエンティティ
+    control notation
+    entity 文字列表記
+}
+
+
+Playerエンティティ --> Cardエンティティ
+Cardエンティティ --> notation
+notation --> 文字列表記
+
+
+@enduml

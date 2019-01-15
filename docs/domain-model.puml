@@ -1,0 +1,79 @@
+@startuml
+
+title: ドメインモデル
+
+agent ユーザ
+
+rectangle PHPシステム {
+
+    package Contract {
+        agent GameInterface
+    }
+
+    package Trump {
+
+        agent TrumpRepository
+        agent Deck
+        agent Card
+        agent Suit
+        agent Rank
+    }
+
+    package Poker {
+        agent Game
+        agent Player
+        agent DealerService
+        agent 手札
+        package 戦績管理 {
+            agent 戦績
+            agent 戦績Repository
+        }
+        package Hand {
+            agent HandAnalizeService
+            agent フルハウス
+            agent ツーペア
+            agent その他いろいろ
+        }
+    }
+}
+
+'' PHPシステム直下パッケージの位置関係
+Poker -[hidden]r- Contract
+Contract -[hidden]d- Trump
+
+'' Pokerパッケージ
+ユーザ -- Game
+Game <|.. GameInterface
+'' Gameインスタンスが直接触るモデル群
+Game -d- DealerService
+Game -d- Player
+
+Player -l- 戦績Repository
+Player o-- 手札
+手札 o-- Card
+手札 -d- HandAnalizeService
+
+HandAnalizeService -d- フルハウス
+HandAnalizeService -d- ツーペア
+HandAnalizeService -d- その他いろいろ
+フルハウス -[hidden]l- ツーペア
+
+戦績Repository -d- 戦績
+
+DealerService -- TrumpRepository
+
+'' Trumpパッケージ
+Card *-- Suit
+Card *-- Rank
+Deck o-- Card
+TrumpRepository -- Card
+TrumpRepository -- Deck
+
+legend
+今回のレビューで扱う
+> 資料「TDDBC課題：ポーカー」 における
+> 「課題1-1 Cardの文字列表記」
+が対象とする範囲は、白抜き部分です。
+end legend
+
+@enduml
